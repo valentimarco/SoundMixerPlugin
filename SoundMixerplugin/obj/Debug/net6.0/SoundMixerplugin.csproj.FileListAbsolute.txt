@@ -1,0 +1,17 @@
+C:\Users\Marco\Documents\universita\C#\SoundMixerplugin\bin\Debug\net6.0\SoundMixerplugin.exe
+C:\Users\Marco\Documents\universita\C#\SoundMixerplugin\bin\Debug\net6.0\SoundMixerplugin.deps.json
+C:\Users\Marco\Documents\universita\C#\SoundMixerplugin\bin\Debug\net6.0\SoundMixerplugin.runtimeconfig.json
+C:\Users\Marco\Documents\universita\C#\SoundMixerplugin\bin\Debug\net6.0\SoundMixerplugin.dll
+C:\Users\Marco\Documents\universita\C#\SoundMixerplugin\bin\Debug\net6.0\SoundMixerplugin.pdb
+C:\Users\Marco\Documents\universita\C#\SoundMixerplugin\obj\Debug\net6.0\SoundMixerplugin.csproj.AssemblyReference.cache
+C:\Users\Marco\Documents\universita\C#\SoundMixerplugin\obj\Debug\net6.0\SoundMixerplugin.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Marco\Documents\universita\C#\SoundMixerplugin\obj\Debug\net6.0\SoundMixerplugin.AssemblyInfoInputs.cache
+C:\Users\Marco\Documents\universita\C#\SoundMixerplugin\obj\Debug\net6.0\SoundMixerplugin.AssemblyInfo.cs
+C:\Users\Marco\Documents\universita\C#\SoundMixerplugin\obj\Debug\net6.0\SoundMixerplugin.csproj.CoreCompileInputs.cache
+C:\Users\Marco\Documents\universita\C#\SoundMixerplugin\obj\Debug\net6.0\SoundMixerplugin.dll
+C:\Users\Marco\Documents\universita\C#\SoundMixerplugin\obj\Debug\net6.0\refint\SoundMixerplugin.dll
+C:\Users\Marco\Documents\universita\C#\SoundMixerplugin\obj\Debug\net6.0\SoundMixerplugin.pdb
+C:\Users\Marco\Documents\universita\C#\SoundMixerplugin\obj\Debug\net6.0\SoundMixerplugin.genruntimeconfig.cache
+C:\Users\Marco\Documents\universita\C#\SoundMixerplugin\obj\Debug\net6.0\ref\SoundMixerplugin.dll
+C:\Users\Marco\Documents\universita\C#\SoundMixerplugin\bin\Debug\net6.0\CoreAudio.dll
+C:\Users\Marco\Documents\universita\C#\SoundMixerplugin\obj\Debug\net6.0\SoundMixerplugin.csproj.CopyComplete
