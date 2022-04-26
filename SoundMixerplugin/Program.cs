@@ -1,15 +1,18 @@
-﻿using System;
-using CoreAudio;
-using System.Diagnostics;
-using System.Runtime.InteropServices;
-using System.Collections.Generic;
-
+﻿using System.Diagnostics;
 
 namespace SoundMixer{
     class SoundMixer{
         public static void Main(string[] args){
-            IList<string> devices = AudioManager.GetAllVolumeObjects();
-            foreach(var device in devices) Console.WriteLine(device);
+            IDictionary<string,int> devices = AudioManager.GetAllVolumeObjects();
+            
+            
+            foreach (var process in devices) {
+                Console.Write("Process name:" + process.Key);
+                Console.Write(", Volume:" + AudioManager.GetApplicationVolume(process.Value));
+                Console.Write("\n");
+            }
+            
+            
         }
 
 

@@ -5,6 +5,9 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <Company>valentimarco</Company>
+    <AssemblyVersion>0.0.1</AssemblyVersion>
+    <NeutralLanguage>it</NeutralLanguage>
   </PropertyGroup>
 
   <ItemGroup>

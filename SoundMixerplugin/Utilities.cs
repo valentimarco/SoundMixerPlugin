@@ -1,5 +1,6 @@
 using System.Runtime.InteropServices;
 using System;
+using System.Diagnostics;
 
 namespace SoundMixer{
     public static class AudioManager
@@ -188,7 +189,6 @@ namespace SoundMixer{
 
         #endregion
         
-
         #region Individual Application Volume Manipulation
 
         public static float? GetApplicationVolume(int pid)
@@ -279,9 +279,10 @@ namespace SoundMixer{
                             break;
                         }
                     }
+                    //Don't know why remove this method i don't get an expetion...
                     finally
                     {
-                        if (ctl != null) Marshal.ReleaseComObject(ctl);
+                        //if (ctl != null) Marshal.ReleaseComObject(ctl);
                     }
                 }
 
@@ -296,7 +297,7 @@ namespace SoundMixer{
             }
         }
 
-        public static IList<string> GetAllVolumeObjects(){
+        public static IDictionary<string, int> GetAllVolumeObjects(){
             IMMDeviceEnumerator deviceEnumerator = null;
             IAudioSessionEnumerator sessionEnumerator = null;
             IAudioSessionManager2 mgr = null;
@@ -319,26 +320,27 @@ namespace SoundMixer{
                 sessionEnumerator.GetCount(out count);
 
                 // search for an audio session with the required process-id
-                IList<string> devices = new List<string>();
+                IDictionary<string, int> process = new Dictionary<string, int>();
                 for (int i = 0; i < count; ++i)
                 {
                     IAudioSessionControl2 ctl = null;
                     try
                     {
                         sessionEnumerator.GetSession(i, out ctl);
-                        string name = "";
-                        ctl.GetDisplayName(out name);
-                        devices.Add(name);
-
-                       
+                        int pid = 0;
+                        ctl.GetProcessId(out pid);
+                        string process_name = Process.GetProcessById(pid).ProcessName;
+                        if(!process.ContainsKey(process_name)) 
+                            process.Add(process_name,pid);
+                        
                     }
                     finally
                     {
-                        if (ctl != null) Marshal.ReleaseComObject(ctl);
+                        //if (ctl != null) Marshal.ReleaseComObject(ctl);
                     }
                 }
 
-                return devices;
+                return process;
             }
             finally
             {
