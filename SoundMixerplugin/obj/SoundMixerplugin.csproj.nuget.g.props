@@ -12,4 +12,16 @@
   <ItemGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
     <SourceRoot Include="C:\Users\x-hal\.nuget\packages\" />
   </ItemGroup>
+  <ItemGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
+    <Content Include="$(NuGetPackageRoot)ovrsharp\1.2.0\contentFiles\any\netstandard2.0\openvr_api.dll" Condition="Exists('$(NuGetPackageRoot)ovrsharp\1.2.0\contentFiles\any\netstandard2.0\openvr_api.dll')">
+      <NuGetPackageId>OVRSharp</NuGetPackageId>
+      <NuGetPackageVersion>1.2.0</NuGetPackageVersion>
+      <NuGetItemType>Content</NuGetItemType>
+      <Pack>false</Pack>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>openvr_api.dll</TargetPath>
+      <Private>True</Private>
+      <Link>openvr_api.dll</Link>
+    </Content>
+  </ItemGroup>
 </Project>

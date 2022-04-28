@@ -32,3 +32,10 @@ C:\Users\x-hal\Desktop\Programmi_Uni\C#\SoundMixerPlugin\SoundMixerplugin\obj\De
 C:\Users\x-hal\Desktop\Programmi_Uni\C#\SoundMixerPlugin\SoundMixerplugin\obj\Debug\net6.0\SoundMixerplugin.pdb
 C:\Users\x-hal\Desktop\Programmi_Uni\C#\SoundMixerPlugin\SoundMixerplugin\obj\Debug\net6.0\SoundMixerplugin.genruntimeconfig.cache
 C:\Users\x-hal\Desktop\Programmi_Uni\C#\SoundMixerPlugin\SoundMixerplugin\obj\Debug\net6.0\ref\SoundMixerplugin.dll
+C:\Users\x-hal\Desktop\Programmi_Uni\C#\SoundMixerPlugin\SoundMixerplugin\bin\Debug\net6.0\openvr_api.dll
+C:\Users\x-hal\Desktop\Programmi_Uni\C#\SoundMixerPlugin\SoundMixerplugin\bin\Debug\net6.0\Microsoft.Win32.SystemEvents.dll
+C:\Users\x-hal\Desktop\Programmi_Uni\C#\SoundMixerPlugin\SoundMixerplugin\bin\Debug\net6.0\OVRSharp.dll
+C:\Users\x-hal\Desktop\Programmi_Uni\C#\SoundMixerPlugin\SoundMixerplugin\bin\Debug\net6.0\System.Drawing.Common.dll
+C:\Users\x-hal\Desktop\Programmi_Uni\C#\SoundMixerPlugin\SoundMixerplugin\bin\Debug\net6.0\runtimes\win\lib\netcoreapp3.0\Microsoft.Win32.SystemEvents.dll
+C:\Users\x-hal\Desktop\Programmi_Uni\C#\SoundMixerPlugin\SoundMixerplugin\bin\Debug\net6.0\runtimes\unix\lib\netcoreapp3.0\System.Drawing.Common.dll
+C:\Users\x-hal\Desktop\Programmi_Uni\C#\SoundMixerPlugin\SoundMixerplugin\bin\Debug\net6.0\runtimes\win\lib\netcoreapp3.0\System.Drawing.Common.dll

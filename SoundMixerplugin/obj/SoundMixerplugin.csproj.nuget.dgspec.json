@@ -41,6 +41,10 @@
             "CoreAudio": {
               "target": "Package",
               "version": "[1.12.0, )"
+            },
+            "OVRSharp": {
+              "target": "Package",
+              "version": "[1.2.0, )"
             }
           },
           "imports": [
