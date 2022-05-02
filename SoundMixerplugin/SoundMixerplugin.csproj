@@ -12,6 +12,8 @@
 
   <ItemGroup>
     <PackageReference Include="CoreAudio" Version="1.12.0" />
+    <PackageReference Include="OpenTK.Graphics" Version="4.7.1" />
+	<PackageReference Include="OpenTK.Windowing.Desktop" Version="4.7.1" />
     <PackageReference Include="OVRSharp" Version="1.2.0" />
   </ItemGroup>
 
