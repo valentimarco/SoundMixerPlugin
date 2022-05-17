@@ -1,6 +1,7 @@
 ﻿using ImGuiNET;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
@@ -25,6 +26,8 @@ namespace Dear_ImGui_Sample
         
         private int _windowWidth;
         private int _windowHeight;
+
+        
 
         private System.Numerics.Vector2 _scaleFactor = System.Numerics.Vector2.One;
 
@@ -169,13 +172,14 @@ namespace Dear_ImGui_Sample
             {
                 ImGui.Render();
             }
-
             SetPerFrameImGuiData(deltaSeconds);
-            UpdateImGuiInput(wnd);
+            
 
             _frameBegun = true;
             ImGui.NewFrame();
         }
+
+        
 
         /// <summary>
         /// Sets per-frame data based on the associated window.
