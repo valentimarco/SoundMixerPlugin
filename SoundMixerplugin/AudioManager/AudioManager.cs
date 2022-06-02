@@ -1,6 +1,8 @@
 using System.Runtime.InteropServices;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 
 namespace SoundMixer{
     public static class AudioManager
@@ -190,6 +192,7 @@ namespace SoundMixer{
         #endregion
         
         #region Individual Application Volume Manipulation
+        
 
         public static float? GetApplicationVolume(int pid)
         {
@@ -296,8 +299,11 @@ namespace SoundMixer{
                 if (deviceEnumerator != null) Marshal.ReleaseComObject(deviceEnumerator);
             }
         }
+        #endregion
 
-        public static IDictionary<string, int> GetAllVolumeObjects(){
+        #region Volume stuff
+        
+        public static IDictionary<string, int> GetAllVolumeObjectsFromDefualtInterface(){
             IMMDeviceEnumerator deviceEnumerator = null;
             IAudioSessionEnumerator sessionEnumerator = null;
             IAudioSessionManager2 mgr = null;
@@ -307,18 +313,19 @@ namespace SoundMixer{
                 // get the speakers (1st render + multimedia) device
                 deviceEnumerator = (IMMDeviceEnumerator) (new MMDeviceEnumerator());
                 deviceEnumerator.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eMultimedia, out speakers);
-
+    
                 // activate the session manager. we need the enumerator
                 Guid IID_IAudioSessionManager2 = typeof (IAudioSessionManager2).GUID;
                 object o;
                 speakers.Activate(ref IID_IAudioSessionManager2, 0, IntPtr.Zero, out o);
                 mgr = (IAudioSessionManager2) o;
-
+    
                 // enumerate sessions for on this device
+                
                 mgr.GetSessionEnumerator(out sessionEnumerator);
                 int count;
                 sessionEnumerator.GetCount(out count);
-
+    
                 // search for an audio session with the required process-id
                 IDictionary<string, int> process = new Dictionary<string, int>();
                 for (int i = 0; i < count; ++i)
@@ -339,7 +346,7 @@ namespace SoundMixer{
                         //if (ctl != null) Marshal.ReleaseComObject(ctl);
                     }
                 }
-
+    
                 return process;
             }
             finally
@@ -350,6 +357,126 @@ namespace SoundMixer{
                 if (deviceEnumerator != null) Marshal.ReleaseComObject(deviceEnumerator);
             }
     }
+        
+        
+                  
+        public static  IDictionary<string, IDictionary<string, int>> GetAudioEndpointsAndVolumeObjects(){
+            IDictionary<string, IDictionary<string, int>> map = new Dictionary<string, IDictionary<string, int>>();
+            
+            IMMDeviceEnumerator deviceEnumerator = null;
+            IAudioSessionEnumerator sessionEnumerator = null;
+            IAudioSessionManager2 mgr = null;
+            IMMDevice speakers = null;
+            IMMDeviceCollection deviceCollection = null;
+            IPropertyStore prop;
+            PropVariant NameEndpoint;
+            PropertyKey key = new PropertyKey() {
+                fmtid = PKEY.PKEY_Device_FriendlyName,
+                pid = 14 // https://stackoverflow.com/questions/32151133/how-to-get-pkey-device-friendlyname-if-its-not-defined
+            };
+            
+            uint countCollecitionEndpoints = 0;
+            int count,pid;
+            object o;
+            string process_name;
+            
+            try
+            {
+                // Get a Collection of AudioEndpoints
+                deviceEnumerator = (IMMDeviceEnumerator) (new MMDeviceEnumerator());
+                deviceEnumerator.EnumAudioEndpoints(EDataFlow.eRender, EDeviceState.DEVICE_STATE_ACTIVE,
+                    out deviceCollection);
+                deviceCollection.GetCount(out countCollecitionEndpoints);
+
+                for (uint i = 0; i < countCollecitionEndpoints; i++) {
+                    IDictionary<string, int> process = new Dictionary<string, int>();
+                    string id;
+                    deviceCollection.Item(i, out speakers);
+                    //Name of AudioEndpoint
+                    speakers.OpenPropertyStore(EStgmAccess.STGM_READ, out prop);
+                    prop.GetValue(ref key, out NameEndpoint);
+                    var nameinterfaceaudio = (string) NameEndpoint.Value;
+                    
+                    //Get a map(nameapp,pid) of app attatch to the i-th AudioEndpoint
+                    Guid IID_IAudioSessionManager2 = typeof (IAudioSessionManager2).GUID;
+                    speakers.Activate(ref IID_IAudioSessionManager2, 0, IntPtr.Zero, out o);
+                    mgr = (IAudioSessionManager2) o;
+                    mgr.GetSessionEnumerator(out sessionEnumerator);
+                    sessionEnumerator.GetCount(out count);
+                    for (int j = 0; j < count; ++j)
+                    {
+                        IAudioSessionControl2 ctl = null;
+                        try
+                        {
+                            sessionEnumerator.GetSession(j, out ctl);
+                            ctl.GetProcessId(out pid);
+                             process_name = Process.GetProcessById(pid).ProcessName;
+                            if(!process.ContainsKey(process_name)) 
+                                process.Add(process_name,pid);
+                            
+                        }
+                        finally
+                        {
+                            //if (ctl != null) Marshal.ReleaseComObject(ctl);
+                        }
+                    }
+                    map.Add(nameinterfaceaudio,process);
+                    
+                }
+
+                return map;
+
+
+            }
+            finally
+            {
+                
+                if (deviceEnumerator != null) Marshal.ReleaseComObject(deviceEnumerator);
+                if (sessionEnumerator != null) Marshal.ReleaseComObject(sessionEnumerator);
+                if (mgr != null) Marshal.ReleaseComObject(mgr);
+                if (speakers != null) Marshal.ReleaseComObject(speakers);
+            }
+    }
+        public static string GetDefaultAudioEndpointsName(){
+
+            IMMDeviceEnumerator deviceEnumerator = null;
+            IAudioSessionEnumerator sessionEnumerator = null;
+            IAudioSessionManager2 mgr = null;
+            IMMDevice speakers = null;
+            IPropertyStore prop;
+            PropVariant NameEndpoint;
+            PropertyKey key = new PropertyKey() {
+                fmtid = PKEY.PKEY_Device_FriendlyName,
+                pid = 14 // https://stackoverflow.com/questions/32151133/how-to-get-pkey-device-friendlyname-if-its-not-defined
+            };
+            
+            string nameinterfaceaudio;
+            
+            try
+            {
+                deviceEnumerator = (IMMDeviceEnumerator) (new MMDeviceEnumerator());
+                deviceEnumerator.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eMultimedia, out speakers);
+                //Name of AudioEndpoint
+                speakers.OpenPropertyStore(EStgmAccess.STGM_READ, out prop);
+                
+                prop.GetValue(ref key, out NameEndpoint);
+                nameinterfaceaudio = (string) NameEndpoint.Value;
+
+
+                return nameinterfaceaudio;
+
+
+            }
+            finally
+            {
+                
+                if (deviceEnumerator != null) Marshal.ReleaseComObject(deviceEnumerator);
+                if (sessionEnumerator != null) Marshal.ReleaseComObject(sessionEnumerator);
+                if (mgr != null) Marshal.ReleaseComObject(mgr);
+                if (speakers != null) Marshal.ReleaseComObject(speakers);
+            }
+    }
     #endregion
+    
     }
 }
