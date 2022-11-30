@@ -8,7 +8,7 @@ namespace SoundMixer {
         }
         public static string PathToResource(string file)
         {
-            return Path.Combine("C:\\Users\\x-hal\\Desktop\\Programmi_Uni\\C#\\SoundMixerPlugin\\SoundMixerplugin", "Resources", file);
+            return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Utilities", file);
         }
         
     }

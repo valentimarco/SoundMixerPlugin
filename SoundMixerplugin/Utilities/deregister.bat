@@ -1,0 +1,2 @@
+﻿SoundMixerplugin.exe --deregister
+pause

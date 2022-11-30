@@ -1,0 +1,2 @@
+SoundMixerplugin.exe --register
+pause
