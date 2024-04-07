@@ -1,11 +1,12 @@
 ﻿using System.Diagnostics;
+using SoundMixerplugin.Overlay;
 using Valve.VR;
 
 namespace SoundMixer{
     class SoundMixer{
         
         public static void Main(string[] args){
-            if (args.Length > 0)
+            /*if (args.Length > 0)
             {
                 if (args[0] == "--register")
                 {
@@ -17,10 +18,10 @@ namespace SoundMixer{
                     DeregisterManifest();
                     return;
                 }
-            }
-            OverlayVR app = new OverlayVR();
-            Console.ReadLine();
-            app.Shutdown();
+            }*/
+            OverlayVr app = new OverlayVr();
+            
+            
         }
         
         static void RegisterManifest()

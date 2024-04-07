@@ -2,25 +2,21 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net6.0-windows</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
+    <Nullable>disable</Nullable>
     <Company>valentimarco</Company>
     <AssemblyVersion>0.0.1</AssemblyVersion>
-    <NeutralLanguage>it</NeutralLanguage>
+    <NeutralLanguage>en</NeutralLanguage>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="CoreAudio" Version="1.12.0" />
+    <PackageReference Include="CoreAudio" Version="1.37.0" />
     <PackageReference Include="ImGui.NET" Version="1.87.3" />
     <PackageReference Include="OpenTK" Version="4.7.1" />
     <PackageReference Include="OpenTK.Graphics" Version="4.7.1" />
     <PackageReference Include="OpenTK.Input" Version="4.7.1" />
     <PackageReference Include="OVRSharp" Version="1.2.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="ImGuiController" />
   </ItemGroup>
 
 </Project>

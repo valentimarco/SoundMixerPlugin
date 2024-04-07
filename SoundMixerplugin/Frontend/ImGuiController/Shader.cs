@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
 using System.Runtime.CompilerServices;
-using System.Threading;
 using OpenTK.Graphics.OpenGL4;
+using SoundMixer;
 
-namespace Dear_ImGui_Sample
+namespace SoundMixerplugin.Frontend.ImGuiController
 {
     struct UniformFieldInfo
     {
@@ -92,7 +86,7 @@ namespace Dear_ImGui_Sample
 
         private int CreateProgram(string name, params (ShaderType Type, string source)[] shaderPaths)
         {
-            Util.CreateProgram(name, out int Program);
+            Utilities.CreateProgram(name, out int Program);
 
             int[] Shaders = new int[shaderPaths.Length];
             for (int i = 0; i < shaderPaths.Length; i++)
@@ -125,7 +119,7 @@ namespace Dear_ImGui_Sample
 
         private int CompileShader(string name, ShaderType type, string source)
         {
-            Util.CreateShader(type, name, out int Shader);
+            Utilities.CreateShader(type, name, out int Shader);
             GL.ShaderSource(Shader, source);
             GL.CompileShader(Shader);
 

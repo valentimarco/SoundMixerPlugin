@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Drawing.Imaging;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using OpenTK.Graphics.OpenGL4;
+using SoundMixer;
 using PixelFormat = OpenTK.Graphics.OpenGL4.PixelFormat;
 
-namespace Dear_ImGui_Sample
+namespace SoundMixerplugin.Frontend.ImGuiController
 {
     public enum TextureCoordinate
     {
@@ -58,30 +53,30 @@ namespace Dear_ImGui_Sample
                 MipmapLevels = 1;
             }
 
-            Util.CheckGLError("Clear");
+            Utilities.CheckGLError("Clear");
 
-            Util.CreateTexture(TextureTarget.Texture2D, Name, out GLTexture);
+            Utilities.CreateTexture(TextureTarget.Texture2D, Name, out GLTexture);
             GL.TextureStorage2D(GLTexture, MipmapLevels, InternalFormat, Width, Height);
-            Util.CheckGLError("Storage2d");
+            Utilities.CheckGLError("Storage2d");
 
             BitmapData data = image.LockBits(new Rectangle(0, 0, Width, Height),
                 ImageLockMode.ReadOnly, global::System.Drawing.Imaging.PixelFormat.Format32bppArgb);
             
             GL.TextureSubImage2D(GLTexture, 0, 0, 0, Width, Height, PixelFormat.Bgra, PixelType.UnsignedByte, data.Scan0);
-            Util.CheckGLError("SubImage");
+            Utilities.CheckGLError("SubImage");
 
             image.UnlockBits(data);
 
             if (generateMipmaps) GL.GenerateTextureMipmap(GLTexture);
 
             GL.TextureParameter(GLTexture, TextureParameterName.TextureWrapS, (int)TextureWrapMode.Repeat);
-            Util.CheckGLError("WrapS");
+            Utilities.CheckGLError("WrapS");
             GL.TextureParameter(GLTexture, TextureParameterName.TextureWrapT, (int)TextureWrapMode.Repeat);
-            Util.CheckGLError("WrapT");
+            Utilities.CheckGLError("WrapT");
 
             GL.TextureParameter(GLTexture, TextureParameterName.TextureMinFilter, (int)(generateMipmaps ? TextureMinFilter.Linear : TextureMinFilter.LinearMipmapLinear));
             GL.TextureParameter(GLTexture, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
-            Util.CheckGLError("Filtering");
+            Utilities.CheckGLError("Filtering");
 
             GL.TextureParameter(GLTexture, TextureParameterName.TextureMaxLevel, MipmapLevels - 1);
 
@@ -107,7 +102,7 @@ namespace Dear_ImGui_Sample
             InternalFormat = srgb ? Srgb8Alpha8 : SizedInternalFormat.Rgba8;
             MipmapLevels = generateMipmaps == false ? 1 : (int)Math.Floor(Math.Log(Math.Max(Width, Height), 2));
 
-            Util.CreateTexture(TextureTarget.Texture2D, Name, out GLTexture);
+            Utilities.CreateTexture(TextureTarget.Texture2D, Name, out GLTexture);
             GL.TextureStorage2D(GLTexture, MipmapLevels, InternalFormat, Width, Height);
 
             GL.TextureSubImage2D(GLTexture, 0, 0, 0, Width, Height, PixelFormat.Bgra, PixelType.UnsignedByte, data);
@@ -133,7 +128,7 @@ namespace Dear_ImGui_Sample
         public void SetAnisotropy(float level)
         {
             const TextureParameterName TEXTURE_MAX_ANISOTROPY = (TextureParameterName)0x84FE;
-            GL.TextureParameter(GLTexture, TEXTURE_MAX_ANISOTROPY, Util.Clamp(level, 1, MaxAniso));
+            GL.TextureParameter(GLTexture, TEXTURE_MAX_ANISOTROPY, Utilities.Clamp(level, 1, MaxAniso));
         }
 
         public void SetLod(int @base, int min, int max)

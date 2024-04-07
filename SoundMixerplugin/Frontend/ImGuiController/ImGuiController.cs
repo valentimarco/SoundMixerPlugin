@@ -1,15 +1,12 @@
-﻿using ImGuiNET;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
+using ImGuiNET;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
-using OpenTK.Windowing.Common.Input;
 using OpenTK.Windowing.Desktop;
 using OpenTK.Windowing.GraphicsLibraryFramework;
+using SoundMixer;
 
-namespace Dear_ImGui_Sample
+namespace SoundMixerplugin.Frontend.ImGuiController
 {
     public class ImGuiController : IDisposable
     {
@@ -68,13 +65,13 @@ namespace Dear_ImGui_Sample
 
         public void CreateDeviceResources()
         {
-            Util.CreateVertexArray("ImGui", out _vertexArray);
+            Utilities.CreateVertexArray("ImGui", out _vertexArray);
 
             _vertexBufferSize = 10000;
             _indexBufferSize = 2000;
 
-            Util.CreateVertexBuffer("ImGui", out _vertexBuffer);
-            Util.CreateElementBuffer("ImGui", out _indexBuffer);
+            Utilities.CreateVertexBuffer("ImGui", out _vertexBuffer);
+            Utilities.CreateElementBuffer("ImGui", out _indexBuffer);
             GL.NamedBufferData(_vertexBuffer, _vertexBufferSize, IntPtr.Zero, BufferUsageHint.DynamicDraw);
             GL.NamedBufferData(_indexBuffer, _indexBufferSize, IntPtr.Zero, BufferUsageHint.DynamicDraw);
 
@@ -130,7 +127,7 @@ namespace Dear_ImGui_Sample
             GL.VertexArrayAttribBinding(_vertexArray, 2, 0);
             GL.VertexArrayAttribFormat(_vertexArray, 2, 4, VertexAttribType.UnsignedByte, true, 16);
 
-            Util.CheckGLError("End of ImGui setup");
+            Utilities.CheckGLError("End of ImGui setup");
         }
 
         /// <summary>
@@ -315,10 +312,10 @@ namespace Dear_ImGui_Sample
             _shader.UseShader();
             GL.UniformMatrix4(_shader.GetUniformLocation("projection_matrix"), false, ref mvp);
             GL.Uniform1(_shader.GetUniformLocation("in_fontTexture"), 0);
-            Util.CheckGLError("Projection");
+            Utilities.CheckGLError("Projection");
 
             GL.BindVertexArray(_vertexArray);
-            Util.CheckGLError("VAO");
+            Utilities.CheckGLError("VAO");
 
             draw_data.ScaleClipRects(io.DisplayFramebufferScale);
 
@@ -335,10 +332,10 @@ namespace Dear_ImGui_Sample
                 ImDrawListPtr cmd_list = draw_data.CmdListsRange[n];
 
                 GL.NamedBufferSubData(_vertexBuffer, IntPtr.Zero, cmd_list.VtxBuffer.Size * Unsafe.SizeOf<ImDrawVert>(), cmd_list.VtxBuffer.Data);
-                Util.CheckGLError($"Data Vert {n}");
+                Utilities.CheckGLError($"Data Vert {n}");
 
                 GL.NamedBufferSubData(_indexBuffer, IntPtr.Zero, cmd_list.IdxBuffer.Size * sizeof(ushort), cmd_list.IdxBuffer.Data);
-                Util.CheckGLError($"Data Idx {n}");
+                Utilities.CheckGLError($"Data Idx {n}");
 
                 for (int cmd_i = 0; cmd_i < cmd_list.CmdBuffer.Size; cmd_i++)
                 {
@@ -351,12 +348,12 @@ namespace Dear_ImGui_Sample
                     {
                         GL.ActiveTexture(TextureUnit.Texture0);
                         GL.BindTexture(TextureTarget.Texture2D, (int)pcmd.TextureId);
-                        Util.CheckGLError("Texture");
+                        Utilities.CheckGLError("Texture");
 
                         // We do _windowHeight - (int)clip.W instead of (int)clip.Y because gl has flipped Y when it comes to these coordinates
                         var clip = pcmd.ClipRect;
                         GL.Scissor((int)clip.X, _windowHeight - (int)clip.W, (int)(clip.Z - clip.X), (int)(clip.W - clip.Y));
-                        Util.CheckGLError("Scissor");
+                        Utilities.CheckGLError("Scissor");
 
                         if ((io.BackendFlags & ImGuiBackendFlags.RendererHasVtxOffset) != 0)
                         {
@@ -366,7 +363,7 @@ namespace Dear_ImGui_Sample
                         {
                             GL.DrawElements(BeginMode.Triangles, (int)pcmd.ElemCount, DrawElementsType.UnsignedShort, (int)pcmd.IdxOffset * sizeof(ushort));
                         }
-                        Util.CheckGLError("Draw");
+                        Utilities.CheckGLError("Draw");
                     }
                 }
             }
